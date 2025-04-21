@@ -2,6 +2,9 @@ import express from "express";
 
 const app = express();
 const port = 3000;
+const Personas = [];
+
+app.use(express.json()); 
 
 app.get('/', (req, res) => {
     res.send("Bienvenido a mi servidor");
@@ -29,6 +32,19 @@ let materias = [ { "nombre": "Matemática" }, { "nombre": "Lengua" } ];
 app.get('/materias', (req, res) => {
     res.json(materias);
 })
+
+app.post('/personas', (req, res) => {
+    const { nombre, apellido } = req.body;
+
+    if (!nombre || !apellido) {
+        return res.status(400).json({ error: 'Faltan datos de la persona' });
+    }
+    const persona = { nombre, apellido };
+    personas.push(persona);
+
+    res.status(201).json({ mensaje: 'Persona agregada', personas });
+});
+
 
 app.listen(port, () => {
     console.log(`Listening on http://localhost:${port}`);
